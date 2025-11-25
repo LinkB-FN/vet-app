@@ -15,6 +15,20 @@
                 <flux:navlist.group :heading="__('Platform')" class="grid">
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
                 </flux:navlist.group>
+
+                @if(auth()->user()->hasRole('admin'))
+                <flux:navlist.group heading="Administración" class="grid">
+                    <flux:navlist.item icon="users" :href="route('admin.users.index')" :current="request()->routeIs('admin.users.*')" wire:navigate>Usuarios</flux:navlist.item>
+                </flux:navlist.group>
+                @endif
+
+                @if(auth()->user()->hasAnyRole(['admin', 'staff']))
+                <flux:navlist.group heading="Gestión" class="grid">
+                    <flux:navlist.item icon="user-group" :href="route('owners.index')" :current="request()->routeIs('owners.*')" wire:navigate>Dueños</flux:navlist.item>
+                    <flux:navlist.item icon="heart" :href="route('pets.index')" :current="request()->routeIs('pets.*')" wire:navigate>Mascotas</flux:navlist.item>
+                    <flux:navlist.item icon="calendar" :href="route('appointments.index')" :current="request()->routeIs('appointments.*')" wire:navigate>Citas</flux:navlist.item>
+                </flux:navlist.group>
+                @endif
             </flux:navlist>
 
             <flux:spacer />

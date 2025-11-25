@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\OwnerController;
+use App\Http\Controllers\PetController;
+use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 use Livewire\Volt\Volt;
@@ -29,4 +33,16 @@ Route::middleware(['auth'])->group(function () {
             ),
         )
         ->name('two-factor.show');
+});
+
+// Admin Routes - Only accessible by admin role
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('users', UserController::class);
+});
+
+// Resource Routes - Accessible by admin and staff
+Route::middleware(['auth', 'role:admin,staff'])->group(function () {
+    Route::resource('owners', OwnerController::class);
+    Route::resource('pets', PetController::class);
+    Route::resource('appointments', AppointmentController::class);
 });
