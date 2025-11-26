@@ -64,11 +64,11 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the appointments assigned to the user (veterinarian).
+     * Get the coaching sessions assigned to the user (coach).
      */
-    public function appointments()
+    public function coachingSessions()
     {
-        return $this->hasMany(Appointment::class);
+        return $this->hasMany(CoachingSession::class, 'coach_id');
     }
 
     /**

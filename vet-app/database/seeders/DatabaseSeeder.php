@@ -3,9 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use App\Models\Owner;
-use App\Models\Pet;
-use App\Models\Appointment;
+use App\Models\AccountOwner;
+use App\Models\FortniteAccount;
+use App\Models\CoachingSession;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
     {
         // Create Admin User
         $admin = User::firstOrCreate(
-            ['email' => 'admin@veterinaria.com'],
+            ['email' => 'admin@fortnitecoaching.com'],
             [
                 'name' => 'Administrador',
                 'password' => 'password',
@@ -27,21 +27,21 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // Create Staff Users
-        $staff1 = User::firstOrCreate(
-            ['email' => 'staff1@veterinaria.com'],
+        // Create Coach Users (Staff)
+        $coach1 = User::firstOrCreate(
+            ['email' => 'coach1@fortnitecoaching.com'],
             [
-                'name' => 'Dr. Juan Pérez',
+                'name' => 'Coach ProBuilder',
                 'password' => 'password',
                 'role' => 'staff',
                 'email_verified_at' => now(),
             ]
         );
 
-        $staff2 = User::firstOrCreate(
-            ['email' => 'staff2@veterinaria.com'],
+        $coach2 = User::firstOrCreate(
+            ['email' => 'coach2@fortnitecoaching.com'],
             [
-                'name' => 'Dra. María García',
+                'name' => 'Coach EditMaster',
                 'password' => 'password',
                 'role' => 'staff',
                 'email_verified_at' => now(),
@@ -50,27 +50,27 @@ class DatabaseSeeder extends Seeder
 
         // Create Client User
         $client = User::firstOrCreate(
-            ['email' => 'client@veterinaria.com'],
+            ['email' => 'client@fortnitecoaching.com'],
             [
-                'name' => 'Carlos Rodríguez',
+                'name' => 'Player Noob',
                 'password' => 'password',
                 'role' => 'client',
                 'email_verified_at' => now(),
             ]
         );
 
-        // Create additional random users
-        User::factory(5)->client()->withoutTwoFactor()->create();
+        // Create additional random coach users
+        User::factory(3)->staff()->withoutTwoFactor()->create();
 
-        // Create Owners with Pets and Appointments
-        Owner::factory(10)
+        // Create Account Owners with Fortnite Accounts and Coaching Sessions
+        AccountOwner::factory(15)
             ->has(
-                Pet::factory(2)
+                FortniteAccount::factory(2)
                     ->has(
-                        Appointment::factory(3)
-                            ->state(function (array $attributes) use ($staff1, $staff2) {
+                        CoachingSession::factory(3)
+                            ->state(function (array $attributes) use ($coach1, $coach2) {
                                 return [
-                                    'user_id' => fake()->randomElement([$staff1->id, $staff2->id]),
+                                    'coach_id' => fake()->randomElement([$coach1->id, $coach2->id]),
                                 ];
                             })
                     )
@@ -78,9 +78,13 @@ class DatabaseSeeder extends Seeder
             ->create();
 
         $this->command->info('Database seeded successfully!');
-        $this->command->info('Admin: admin@veterinaria.com / password');
-        $this->command->info('Staff: staff1@veterinaria.com / password');
-        $this->command->info('Staff: staff2@veterinaria.com / password');
-        $this->command->info('Client: client@veterinaria.com / password');
+        $this->command->info('===========================================');
+        $this->command->info('🎮 Fortnite Coaching Platform');
+        $this->command->info('===========================================');
+        $this->command->info('Admin: admin@fortnitecoaching.com / password');
+        $this->command->info('Coach 1: coach1@fortnitecoaching.com / password');
+        $this->command->info('Coach 2: coach2@fortnitecoaching.com / password');
+        $this->command->info('Client: client@fortnitecoaching.com / password');
+        $this->command->info('===========================================');
     }
 }

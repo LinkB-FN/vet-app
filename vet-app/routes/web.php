@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\OwnerController;
-use App\Http\Controllers\PetController;
-use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\AccountOwnerController;
+use App\Http\Controllers\FortniteAccountController;
+use App\Http\Controllers\CoachingSessionController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
@@ -40,9 +40,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::resource('users', UserController::class);
 });
 
-// Resource Routes - Accessible by admin and staff
+// Resource Routes - Accessible by admin and staff (coaches)
 Route::middleware(['auth', 'role:admin,staff'])->group(function () {
-    Route::resource('owners', OwnerController::class);
-    Route::resource('pets', PetController::class);
-    Route::resource('appointments', AppointmentController::class);
+    Route::resource('account-owners', AccountOwnerController::class);
+    Route::resource('fortnite-accounts', FortniteAccountController::class);
+    Route::resource('coaching-sessions', CoachingSessionController::class);
 });

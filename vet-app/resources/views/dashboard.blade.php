@@ -6,7 +6,7 @@
                 Bienvenido, {{ auth()->user()->name }}
             </h1>
             <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                Rol: <span class="font-semibold capitalize">{{ auth()->user()->role }}</span>
+                Rol: <span class="font-semibold capitalize">{{ auth()->user()->role === 'staff' ? 'Coach' : auth()->user()->role }}</span>
             </p>
         </div>
 
@@ -14,9 +14,9 @@
             $stats = [];
             if (auth()->user()->hasAnyRole(['admin', 'staff'])) {
                 $stats = [
-                    ['label' => 'Dueños', 'value' => \App\Models\Owner::count(), 'route' => 'owners.index'],
-                    ['label' => 'Mascotas', 'value' => \App\Models\Pet::count(), 'route' => 'pets.index'],
-                    ['label' => 'Citas', 'value' => \App\Models\Appointment::count(), 'route' => 'appointments.index'],
+                    ['label' => 'Propietarios', 'value' => \App\Models\AccountOwner::count(), 'route' => 'account-owners.index'],
+                    ['label' => 'Cuentas Fortnite', 'value' => \App\Models\FortniteAccount::count(), 'route' => 'fortnite-accounts.index'],
+                    ['label' => 'Sesiones', 'value' => \App\Models\CoachingSession::count(), 'route' => 'coaching-sessions.index'],
                 ];
                 if (auth()->user()->hasRole('admin')) {
                     $stats[] = ['label' => 'Usuarios', 'value' => \App\Models\User::count(), 'route' => 'admin.users.index'];
@@ -47,52 +47,52 @@
                 @endif
                 
                 @if(auth()->user()->hasAnyRole(['admin', 'staff']))
-                <flux:button href="{{ route('owners.create') }}" variant="primary">
-                    Registrar Dueño
+                <flux:button href="{{ route('account-owners.create') }}" variant="primary">
+                    Registrar Propietario
                 </flux:button>
-                <flux:button href="{{ route('pets.create') }}" variant="primary">
-                    Registrar Mascota
+                <flux:button href="{{ route('fortnite-accounts.create') }}" variant="primary">
+                    Registrar Cuenta Fortnite
                 </flux:button>
-                <flux:button href="{{ route('appointments.create') }}" variant="primary">
-                    Crear Cita
+                <flux:button href="{{ route('coaching-sessions.create') }}" variant="primary">
+                    Crear Sesión de Coaching
                 </flux:button>
                 @endif
             </div>
         </div>
 
         @if(auth()->user()->hasAnyRole(['admin', 'staff']))
-        <!-- Recent Appointments -->
+        <!-- Upcoming Coaching Sessions -->
         <div class="rounded-xl border border-neutral-200 bg-white p-6 dark:border-neutral-700 dark:bg-neutral-800">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Próximas Citas</h2>
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Próximas Sesiones de Coaching</h2>
             @php
-                $upcomingAppointments = \App\Models\Appointment::with('pet.owner', 'user')
-                    ->where('appointment_date', '>=', now())
+                $upcomingSessions = \App\Models\CoachingSession::with('fortniteAccount.accountOwner', 'coach')
+                    ->where('session_date', '>=', now())
                     ->where('status', '!=', 'cancelled')
-                    ->orderBy('appointment_date')
+                    ->orderBy('session_date')
                     ->take(5)
                     ->get();
             @endphp
             
-            @if($upcomingAppointments->count() > 0)
+            @if($upcomingSessions->count() > 0)
             <div class="mt-4 space-y-3">
-                @foreach($upcomingAppointments as $appointment)
+                @foreach($upcomingSessions as $session)
                 <div class="flex items-center justify-between rounded-lg border border-gray-200 p-4 dark:border-gray-700">
                     <div>
                         <div class="font-medium text-gray-900 dark:text-white">
-                            {{ $appointment->pet->name }} - {{ $appointment->pet->owner->name }}
+                            {{ $session->fortniteAccount->epic_username }} - {{ $session->fortniteAccount->accountOwner->name }}
                         </div>
                         <div class="text-sm text-gray-600 dark:text-gray-400">
-                            {{ $appointment->appointment_date->format('d/m/Y H:i') }} - {{ $appointment->reason }}
+                            {{ $session->session_date->format('d/m/Y H:i') }} - {{ $session->session_type }}
                         </div>
                     </div>
-                    <flux:badge :color="$appointment->status === 'confirmed' ? 'green' : 'yellow'">
-                        {{ ucfirst($appointment->status) }}
+                    <flux:badge :color="$session->status === 'confirmed' ? 'green' : 'yellow'">
+                        {{ ucfirst($session->status) }}
                     </flux:badge>
                 </div>
                 @endforeach
             </div>
             @else
-            <p class="mt-4 text-sm text-gray-600 dark:text-gray-400">No hay citas próximas.</p>
+            <p class="mt-4 text-sm text-gray-600 dark:text-gray-400">No hay sesiones próximas.</p>
             @endif
         </div>
         @endif

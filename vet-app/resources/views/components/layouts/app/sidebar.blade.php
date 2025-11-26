@@ -23,10 +23,10 @@
                 @endif
 
                 @if(auth()->user()->hasAnyRole(['admin', 'staff']))
-                <flux:navlist.group heading="Gestión" class="grid">
-                    <flux:navlist.item icon="user-group" :href="route('owners.index')" :current="request()->routeIs('owners.*')" wire:navigate>Dueños</flux:navlist.item>
-                    <flux:navlist.item icon="heart" :href="route('pets.index')" :current="request()->routeIs('pets.*')" wire:navigate>Mascotas</flux:navlist.item>
-                    <flux:navlist.item icon="calendar" :href="route('appointments.index')" :current="request()->routeIs('appointments.*')" wire:navigate>Citas</flux:navlist.item>
+                <flux:navlist.group heading="Coaching Fortnite" class="grid">
+                    <flux:navlist.item icon="user-group" :href="route('account-owners.index')" :current="request()->routeIs('account-owners.*')" wire:navigate>Propietarios</flux:navlist.item>
+                    <flux:navlist.item icon="device-phone-mobile" :href="route('fortnite-accounts.index')" :current="request()->routeIs('fortnite-accounts.*')" wire:navigate>Cuentas Fortnite</flux:navlist.item>
+                    <flux:navlist.item icon="calendar" :href="route('coaching-sessions.index')" :current="request()->routeIs('coaching-sessions.*')" wire:navigate>Sesiones</flux:navlist.item>
                 </flux:navlist.group>
                 @endif
             </flux:navlist>

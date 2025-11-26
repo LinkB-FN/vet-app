@@ -1,54 +1,56 @@
-# Veterinary System Implementation TODO
+# Fortnite Coaching Dashboard Transformation - TODO
 
-## Phase 1: Database Layer ✅
-- [x] Create migration to add role field to users table
-- [x] Create owners table migration
-- [x] Create pets table migration
-- [x] Create appointments table migration
-- [x] Create Owner model with relationships
-- [x] Create Pet model with relationships
-- [x] Create Appointment model with relationships
-- [x] Update User model with role and relationships
+## Phase 1: Database Layer (Migrations & Models) ✅
+- [x] Create migration to rename owners table to account_owners and update fields
+- [x] Create migration to rename pets table to fortnite_accounts and update fields
+- [x] Create migration to rename appointments table to coaching_sessions and update fields
+- [x] Rename Owner.php to AccountOwner.php and update content
+- [x] Rename Pet.php to FortniteAccount.php and update content
+- [x] Rename Appointment.php to CoachingSession.php and update content
+- [x] Update AccountOwnerFactory.php with Fortnite data
+- [x] Update FortniteAccountFactory.php with Fortnite data
+- [x] Update CoachingSessionFactory.php with Fortnite data
 
-## Phase 2: Factories & Seeders ✅
-- [x] Update UserFactory to support roles
-- [x] Create OwnerFactory
-- [x] Create PetFactory
-- [x] Create AppointmentFactory
-- [x] Update DatabaseSeeder with role-based users and sample data
+## Phase 2: Application Layer (Controllers) ✅
+- [x] Rename OwnerController.php to AccountOwnerController.php and update content
+- [x] Rename PetController.php to FortniteAccountController.php and update content
+- [x] Rename AppointmentController.php to CoachingSessionController.php and update content
 
-## Phase 3: Middleware & Authorization ✅
-- [x] Create RoleMiddleware for role-based access control
-- [x] Register middleware in bootstrap/app.php
+## Phase 3: Routes ✅
+- [x] Update routes/web.php with new controller and route names
 
-## Phase 4: Controllers ✅
-- [x] Create OwnerController (resource)
-- [x] Create PetController (resource)
-- [x] Create AppointmentController (resource)
-- [x] Create Admin/UserController (resource)
+## Phase 4: Views Layer ✅
+- [x] Update dashboard.blade.php with Fortnite terminology
+- [x] Update sidebar.blade.php with new navigation and icons
+- [x] Rename and update owners views to account-owners (4 files)
+- [x] Rename and update pets views to fortnite-accounts (4 files)
+- [x] Rename and update appointments views to coaching-sessions (4 files)
 
-## Phase 5: Routes ✅
-- [x] Add resource routes for owners, pets, appointments
-- [x] Add admin routes group with prefix and middleware
-- [x] Add resource routes for user management in admin
+## Phase 5: Seeder & Final Steps ✅
+- [x] Update DatabaseSeeder.php with Fortnite sample data
 
-## Phase 6: Views ✅
-- [x] Create owners views (index, create, edit, show)
-- [x] Create pets views (index, create, edit, show)
-- [x] Create appointments views (index, create, edit, show)
-- [x] Create admin/users views (index, create, edit)
-- [x] Update dashboard with role-specific content
-- [x] Update navigation/sidebar with role-based menu items
-
-## Phase 7: Testing & Verification ✅
-- [x] Run migrations
-- [x] Run seeders
-- [ ] Test authentication flow
+## Phase 6: Testing & Deployment 🚀
+- [ ] Run migrations: `php artisan migrate:fresh`
+- [ ] Run seeders: `php artisan db:seed`
+- [ ] Test all CRUD operations
+- [ ] Verify navigation and UI
 - [ ] Test role-based access
-- [ ] Test CRUD operations for all resources
 
-## Test Users Created:
-- **Admin**: admin@veterinaria.com / password
-- **Staff 1**: staff1@veterinaria.com / password
-- **Staff 2**: staff2@veterinaria.com / password
-- **Client**: client@veterinaria.com / password
+---
+**Status:** 🎉 ALL CODE FILES COMPLETED! Ready for testing and deployment.
+
+## Summary of Changes:
+- ✅ 3 new migrations created
+- ✅ 3 new models created (AccountOwner, FortniteAccount, CoachingSession)
+- ✅ 3 new factories with Fortnite data
+- ✅ 3 new controllers created
+- ✅ Routes updated
+- ✅ Dashboard and sidebar updated
+- ✅ 12 new view files created (4 for each entity)
+- ✅ DatabaseSeeder updated with Fortnite theme
+
+## Next Steps:
+1. Run `php artisan migrate:fresh` to apply all migrations
+2. Run `php artisan db:seed` to populate with sample data
+3. Login with: admin@fortnitecoaching.com / password
+4. Test all functionality
